@@ -6,6 +6,10 @@ Design patterns for when Rails' defaults stop being enough. Each skill in this b
 
 See also [rails-antipatterns/](../rails-antipatterns/README.md) for the anti-patterns these can both solve and create when misapplied.
 
+## Sweep all patterns
+
+- **[oop](./oop/SKILL.md)** — Orchestrator that fans out one parallel reviewer per pattern below, surfacing extraction opportunities. Invoked explicitly (e.g. `/oop`).
+
 ## Patterns
 
 - **[oop-value-objects](./oop-value-objects/SKILL.md)** — Immutable domain values with equality by content: `Money`, `EmailAddress`, `DateRange`. Composed into AR via `composed_of` or custom attribute types.

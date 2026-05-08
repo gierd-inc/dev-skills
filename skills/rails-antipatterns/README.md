@@ -4,6 +4,10 @@ Reference skills covering Rails antipatterns drawn from *Rails Antipatterns* (Py
 
 These complement the positive references in [`skills/rails/`](../rails/README.md) — load an antipattern skill when you're reviewing or refactoring code that exhibits the smell.
 
+## Sweep all antipatterns
+
+- **[rails-antipatterns](./rails-antipatterns/SKILL.md)** — Orchestrator that fans out one parallel reviewer per antipattern below, then aggregates findings. Invoked explicitly (e.g. `/rails-antipatterns`).
+
 ## Models
 
 - **[fat-model-god-object](./rails-antipattern-fat-model-god-object/SKILL.md)** — A model that knows everything; extract concerns, value objects, and POROs (not service objects).

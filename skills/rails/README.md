@@ -4,6 +4,10 @@ Domain references for Rails 8.1+ work. Each skill is loaded on-demand based on w
 
 These come from [agency-plugin](https://github.com/ryenski/agency-plugin) and are tuned for Gierd's stack: Rails 8.1+, Hotwire (Turbo + Stimulus), Tailwind, Minitest with fixtures, Solid Queue / Solid Cache / Solid Cable, Kamal 2 deployment.
 
+## Sweep all layers
+
+- **[rails](./rails/SKILL.md)** — Orchestrator that maps changed files to layer skills below and dispatches parallel reviewers, aggregating findings. Invoked explicitly (e.g. `/rails`); for GitHub PR reviews, use `code-review-orchestration` instead.
+
 ## Layered references
 
 - **[rails-the-rails-way](./rails-the-rails-way/SKILL.md)** — General conventions, project style, code organization, philosophy.
