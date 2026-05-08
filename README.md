@@ -27,11 +27,11 @@ This is a private Claude Code plugin. Install it through Claude Code's plugin ma
 
 ### From GitHub
 
-In a Claude Code session, add the marketplace and install:
+Add the marketplace and install with the `claude plugin` CLI:
 
-```
-/plugin marketplace add gierd-inc/dev-skills
-/plugin install gierd@gierd
+```bash
+claude plugin marketplace add gierd-inc/dev-skills
+claude plugin install gierd@gierd
 ```
 
 You'll need GitHub access to `gierd-inc/dev-skills` (SSH key or HTTPS credentials configured for git).
@@ -40,9 +40,9 @@ You'll need GitHub access to `gierd-inc/dev-skills` (SSH key or HTTPS credential
 
 If you've already cloned the repo somewhere, point Claude Code at the path:
 
-```
-/plugin marketplace add /path/to/dev-skills
-/plugin install gierd@gierd
+```bash
+claude plugin marketplace add /path/to/dev-skills
+claude plugin install gierd@gierd
 ```
 
 ### After installing
@@ -56,18 +56,19 @@ Run `/setup-gierd-skills` in your agent. It will:
 
 If you're actively editing the skills, install via the **local directory** route above. Claude Code reads from your working tree, so edits to any `SKILL.md` (or command, agent, etc.) are picked up on the next agent session — no reinstall step:
 
-```
-/plugin marketplace add /path/to/dev-skills
-/plugin install gierd@gierd
+```bash
+claude plugin marketplace add /path/to/dev-skills
+claude plugin install gierd@gierd
 ```
 
-For lightweight iteration on just the skills (without registering as a full plugin), use the bundled symlink script:
+For lightweight iteration on just the skills (without registering as a full plugin), use the bundled symlink scripts:
 
 ```bash
-./scripts/link-skills.sh
+./scripts/link-skills.sh    # symlink every skill into ~/.claude/skills/
+./scripts/unlink-skills.sh  # remove the symlinks created above
 ```
 
-This symlinks every `SKILL.md` directory under `skills/` (excluding `deprecated/`) into `~/.claude/skills/`. Useful when you only need the skills loaded and don't care about the `/gierd:*` slash commands or Agency subagents.
+`link-skills.sh` symlinks every `SKILL.md` directory under `skills/` (excluding `deprecated/`) into `~/.claude/skills/`. `unlink-skills.sh` removes only the symlinks pointing back into this repo, leaving any unrelated entries in `~/.claude/skills/` untouched. Useful when you only need the skills loaded and don't care about the `/gierd:*` slash commands or Agency subagents.
 
 ## Why these skills exist
 
