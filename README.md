@@ -78,8 +78,8 @@ These skills exist to fix common failure modes with Claude Code, Codex, and othe
 
 The most common failure mode in software development is misalignment. The fix is a **grilling session** — getting the agent to ask you detailed questions about what you're building before it writes anything.
 
-- [`/grill-me`](./skills/productivity/grill-me/SKILL.md) — non-code grilling
-- [`/grill-with-docs`](./skills/engineering/grill-with-docs/SKILL.md) — same, but routes through `CONTEXT-MAP.md` and the per-context `CONTEXT.md` files, sharpens terminology, and updates ADRs inline
+- [`/grill-with-docs`](./skills/engineering/grill-with-docs/SKILL.md) — **prefer this for product work.** Routes through `CONTEXT-MAP.md` and the per-context `CONTEXT.md` files, sharpens terminology, and updates ADRs inline. Produces durable artifacts so the next session inherits the alignment.
+- [`/grill-me`](./skills/productivity/grill-me/SKILL.md) — non-code grilling, no docs touched. Use for smaller tasks where you only need clarity in the moment and don't want to commit to artifacts.
 
 ### #2 — Verbose agents drifting from the team's language
 
