@@ -70,6 +70,18 @@ For lightweight iteration on just the skills (without registering as a full plug
 
 `link-skills.sh` symlinks every `SKILL.md` directory under `skills/` (excluding `deprecated/`) into `~/.claude/skills/`. `unlink-skills.sh` removes only the symlinks pointing back into this repo, leaving any unrelated entries in `~/.claude/skills/` untouched. Useful when you only need the skills loaded and don't care about the `/gierd:*` slash commands or Gierd Dev Skills subagents.
 
+### Slash-command wrappers
+
+Skills auto-load by description match, but they don't appear in the `/` picker. To make every skill invokable as a slash command, run:
+
+```bash
+./scripts/generate-skill-commands.sh
+```
+
+This walks `skills/**/SKILL.md` and writes a thin wrapper into `commands/` for each one — so `skills/oop/oop/SKILL.md` becomes `/gierd:oop`, `skills/agency/deploy-to-dev/SKILL.md` becomes `/gierd:deploy-to-dev`, etc. Re-run it after adding, renaming, or removing skills.
+
+The script is idempotent: wrappers carry an HTML comment marker, and only marked files are touched. Hand-written commands (`build.md`, `prd-to-spec.md`, etc.) are preserved.
+
 ## Why these skills exist
 
 These skills exist to fix common failure modes with Claude Code, Codex, and other coding agents.
