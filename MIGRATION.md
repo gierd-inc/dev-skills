@@ -1,6 +1,6 @@
 # Migration: agency-plugin → gierd
 
-This repo absorbed `~/Projects/agency-plugin`. To switch Grips (and other projects) over, follow these steps once this branch is merged and pushed to `gierd/dev-skills`.
+This repo absorbed `~/Projects/agency-plugin`. To switch Grips (and other projects) over, follow these steps once this branch is merged and pushed to `gierd-inc/dev-skills`.
 
 ## 1. Publish the fork
 
@@ -8,8 +8,8 @@ This repo absorbed `~/Projects/agency-plugin`. To switch Grips (and other projec
 # from ~/Projects/dev-skills
 git push origin gierd-fork
 # open PR, merge to main
-# create the GitHub remote if not yet pointed at gierd/dev-skills:
-git remote set-url origin git@github.com:gierd/dev-skills.git
+# create the GitHub remote if not yet pointed at gierd-inc/dev-skills:
+git remote set-url origin git@github.com:gierd-inc/dev-skills.git
 git push -u origin main
 ```
 
@@ -18,10 +18,10 @@ git push -u origin main
 In any Claude Code session:
 
 ```
-/plugin install gierd/dev-skills
+/plugin install gierd-inc/dev-skills
 ```
 
-(Or via the marketplace flow your team prefers — `npx skills@latest add gierd/dev-skills` works if you use the skills.sh marketplace.)
+(Or via the marketplace flow your team prefers — `npx skills@latest add gierd-inc/dev-skills` works if you use the skills.sh marketplace.)
 
 ## 3. Disable / uninstall the old agency plugin
 

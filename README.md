@@ -1,6 +1,6 @@
 # Gierd Skills
 
-[![skills.sh](https://skills.sh/b/gierd/dev-skills)](https://skills.sh/gierd/dev-skills)
+[![skills.sh](https://skills.sh/b/gierd-inc/dev-skills)](https://skills.sh/gierd-inc/dev-skills)
 
 Plugin name: `gierd`. Commands: `/gierd:build`, `/gierd:prd-to-spec`, `/gierd:status`, etc.
 
@@ -24,7 +24,7 @@ The skills cover four broad areas:
 1. Install the plugin:
 
    ```bash
-   npx skills@latest add gierd/dev-skills
+   npx skills@latest add gierd-inc/dev-skills
    ```
 
 2. Run `/setup-gierd-skills` in your agent. It will:
