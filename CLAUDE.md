@@ -1,14 +1,16 @@
 Skills are organized into bucket folders under `skills/`:
 
-- `engineering/` — daily code work
+- `engineering/` — daily code work, process tools (grill, triage, tdd, etc.)
+- `rails/` — Rails-domain references, loaded on-demand
+- `agency/` — Agency PRD-to-shipped workflow skills
 - `productivity/` — daily non-code workflow tools
 - `misc/` — kept around but rarely used
-- `personal/` — tied to my own setup, not promoted
-- `in-progress/` — drafts not yet ready to ship
 - `deprecated/` — no longer used
 
-Every skill in `engineering/`, `productivity/`, or `misc/` must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`. Skills in `personal/`, `in-progress/`, and `deprecated/` must not appear in either.
+Every skill in `engineering/`, `rails/`, `agency/`, `productivity/`, or `misc/` must have a reference in the appropriate bucket `README.md`. The top-level `README.md` references each bucket's `README.md` (the rails and agency buckets are too large to enumerate inline). Skills in `deprecated/` must not appear in either.
 
-Each skill entry in the top-level `README.md` must link the skill name to its `SKILL.md`.
+The plugin uses Claude Code's auto-discovery from `skills/`, so `.claude-plugin/plugin.json` does not enumerate skills.
 
-Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description, with the skill name linked to its `SKILL.md`.
+Slash commands under `commands/` are namespaced as `/gierd:<command>` because the plugin is named `gierd`.
+
+Each skill entry in a bucket README must link the skill name to its `SKILL.md`. Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description.

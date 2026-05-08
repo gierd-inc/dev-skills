@@ -1,23 +1,29 @@
 # Good and Bad Tests
 
+Examples are Minitest with Rails fixtures (Gierd's stack). Same principles apply to RSpec or Test::Unit; only the syntax differs.
+
 ## Good Tests
 
 **Integration-style**: Test through real interfaces, not mocks of internal parts.
 
-```typescript
-// GOOD: Tests observable behavior
-test("user can checkout with valid cart", async () => {
-  const cart = createCart();
-  cart.add(product);
-  const result = await checkout(cart, paymentMethod);
-  expect(result.status).toBe("confirmed");
-});
+```ruby
+# GOOD: Tests observable behavior
+class CheckoutTest < ActiveSupport::TestCase
+  test "user can checkout with valid cart" do
+    cart = Cart.create!(user: users(:alice))
+    cart.add(products(:widget))
+
+    result = Checkout.new(cart, payment_methods(:alice_card)).call
+
+    assert_equal "confirmed", result.status
+  end
+end
 ```
 
 Characteristics:
 
-- Tests behavior users/callers care about
-- Uses public API only
+- Tests behavior callers care about
+- Uses public API only (calling `Checkout.new(...).call`, not internal methods)
 - Survives internal refactors
 - Describes WHAT, not HOW
 - One logical assertion per test
@@ -26,36 +32,67 @@ Characteristics:
 
 **Implementation-detail tests**: Coupled to internal structure.
 
-```typescript
-// BAD: Tests implementation details
-test("checkout calls paymentService.process", async () => {
-  const mockPayment = jest.mock(paymentService);
-  await checkout(cart, payment);
-  expect(mockPayment.process).toHaveBeenCalledWith(cart.total);
-});
+```ruby
+# BAD: Tests implementation details
+class CheckoutTest < ActiveSupport::TestCase
+  test "checkout calls PaymentService#process" do
+    mock_payment = Minitest::Mock.new
+    mock_payment.expect(:process, true, [cart.total])
+
+    PaymentService.stub(:new, mock_payment) do
+      Checkout.new(cart, payment).call
+    end
+
+    mock_payment.verify
+  end
+end
 ```
 
 Red flags:
 
-- Mocking internal collaborators
-- Testing private methods
-- Asserting on call counts/order
+- Mocking internal collaborators (`PaymentService.stub`, `Minitest::Mock`)
+- Testing private methods (`send(:internal_method)`)
+- Asserting on call counts / argument order via `expect(...).to have_received`
 - Test breaks when refactoring without behavior change
 - Test name describes HOW not WHAT
-- Verifying through external means instead of interface
+- Verifying through external means (raw SQL) instead of through the interface
 
-```typescript
-// BAD: Bypasses interface to verify
-test("createUser saves to database", async () => {
-  await createUser({ name: "Alice" });
-  const row = await db.query("SELECT * FROM users WHERE name = ?", ["Alice"]);
-  expect(row).toBeDefined();
-});
+```ruby
+# BAD: Bypasses interface to verify
+test "create_user saves to database" do
+  Users::Create.new(name: "Alice").call
 
-// GOOD: Verifies through interface
-test("createUser makes user retrievable", async () => {
-  const user = await createUser({ name: "Alice" });
-  const retrieved = await getUser(user.id);
-  expect(retrieved.name).toBe("Alice");
-});
+  row = ActiveRecord::Base.connection.execute(
+    "SELECT * FROM users WHERE name = 'Alice'"
+  ).first
+
+  assert_not_nil row
+end
+
+# GOOD: Verifies through interface
+test "create_user makes user retrievable" do
+  user = Users::Create.new(name: "Alice").call
+
+  retrieved = User.find(user.id)
+  assert_equal "Alice", retrieved.name
+end
 ```
+
+## A note on fixtures vs. factories
+
+Gierd uses **Rails fixtures** (not FactoryBot). Fixtures load once per suite and stay consistent across tests, which is fast and predictable. When a test needs a one-off variation, build it inline from a fixture as a starting point:
+
+```ruby
+test "discount applies to high-value carts" do
+  cart = carts(:alice_empty)
+  cart.add(products(:premium_widget), quantity: 50)  # tweak inline
+
+  assert cart.eligible_for_discount?
+end
+```
+
+Don't reach for FactoryBot or transactional helpers from other ecosystems unless the test genuinely cannot be expressed against a fixture.
+
+## System tests
+
+For end-to-end browser tests, use Rails system tests (`ActionDispatch::SystemTestCase`) with Capybara. These are the equivalent of "integration-style" at the highest level: they exercise routing, controllers, views, JS, and the database together. Reserve them for golden paths — they're slow.

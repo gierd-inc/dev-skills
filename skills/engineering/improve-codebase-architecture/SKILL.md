@@ -34,6 +34,14 @@ This skill is _informed_ by the project's domain model. The domain language give
 
 Read the project's domain glossary and any ADRs in the area you're touching first.
 
+**Multi-context repos:** If the repo has a `CONTEXT-MAP.md` at the root, read it first. It names each bounded context, the namespaces (folders) it covers, and any cross-repo dependencies. Each context has its own `docs/contexts/<name>/CONTEXT.md` and may have its own `docs/contexts/<name>/docs/adr/`.
+
+Constrain your scan to one context at a time unless the user has explicitly asked for a cross-cutting review. Read that context's `CONTEXT.md` and any context-specific ADRs *plus* the system-wide ADRs under `docs/adr/`.
+
+Treat **context boundaries as seams in their own right**: a deepening opportunity that would dissolve a context boundary is a much bigger decision than a deepening opportunity within one context. If you find one, surface it as an ADR candidate, not a refactor candidate — and frame it as "should this concept move from `<context-A>` to `<context-B>`?" or "is the boundary in the wrong place?"
+
+
+
 Then use the Agent tool with `subagent_type=Explore` to walk the codebase. Don't follow rigid heuristics — explore organically and note where you experience friction:
 
 - Where does understanding one concept require bouncing between many small modules?

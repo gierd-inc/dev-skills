@@ -33,23 +33,33 @@ Most repos have a single context:
 └── src/
 ```
 
-If a `CONTEXT-MAP.md` exists at the root, the repo has multiple contexts. The map points to where each one lives:
+If a `CONTEXT-MAP.md` exists at the root, the repo has multiple **bounded contexts**. The map names each context and the namespaces (folders) it covers, plus any cross-repo dependencies. **Read `CONTEXT-MAP.md` first** so you know which context you're working in and whether to update one `CONTEXT.md` or several.
+
+Gierd's standard multi-context layout (used in `grips`):
 
 ```
 /
-├── CONTEXT-MAP.md
+├── CONTEXT-MAP.md                    ← index: contexts + namespaces + cross-repo links
 ├── docs/
-│   └── adr/                          ← system-wide decisions
-├── src/
-│   ├── ordering/
-│   │   ├── CONTEXT.md
-│   │   └── docs/adr/                 ← context-specific decisions
-│   └── billing/
-│       ├── CONTEXT.md
-│       └── docs/adr/
+│   ├── adr/                          ← system-wide decisions (cross-context)
+│   └── contexts/
+│       ├── pricing/
+│       │   ├── CONTEXT.md
+│       │   └── docs/adr/             ← context-specific decisions (optional)
+│       ├── catalog/
+│       │   └── CONTEXT.md
+│       ├── marketplaces/
+│       │   └── CONTEXT.md
+│       └── ...
+└── app/
+    ├── models/pricing/
+    ├── models/catalog/
+    └── ...
 ```
 
-Create files lazily — only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
+When the user discusses work that spans namespaces from more than one context (per `CONTEXT-MAP.md`), call that out: "This touches both Pricing and Catalog — which context owns the new concept?" Cross-context concerns usually belong in a system-wide ADR under `docs/adr/`, not inside any one `CONTEXT.md`.
+
+Create files lazily — only when you have something to write. If a context's `CONTEXT.md` doesn't exist yet, create it under `docs/contexts/<name>/CONTEXT.md` when the first term in that context is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
 
 ## During the session
 
