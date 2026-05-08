@@ -12,25 +12,62 @@ Agent skills for Gierd's Ruby on Rails engineering workflow — daily-driver pro
 
 These skills are designed to be small, easy to adapt, and composable. They work with any model. Hack around with them. Make them your own.
 
-The skills cover four broad areas:
+The skills cover six broad areas:
 
 1. **Process** — grill the agent into alignment, triage incoming bugs, break PRDs into issues, debug systematically.
-2. **Rails domain knowledge** — one focused skill per Rails layer (models, controllers, views, jobs, mailers, migrations, security, performance, testing, Hotwire, etc.). Each is loaded on-demand based on what the agent is touching.
-3. **The Agency workflow** — PRD → Spec → Issues → Code → draft PR, with file-based subagent contracts and resumable per-feature state under `.agency/`.
-4. **Productivity** — `grill-me`, `caveman` mode, `write-a-skill`.
+2. **Rails domain knowledge** — one focused skill per Rails layer (models, controllers, views, jobs, mailers, migrations, security, performance, testing, Hotwire, etc.), targeted at Rails 8.1+. Each is loaded on-demand based on what the agent is touching.
+3. **OOP extraction patterns** — value objects, null objects, concerns, presenters, query objects, form objects, service objects, policy objects, and (rarely) repository pattern. Loaded when fat models stop being enough.
+4. **Rails antipatterns** — named smells (fat-controller, callback-hell, service-object-soup, etc.) drawn from *Rails Antipatterns* (Pytel & Saleh) and the 37signals tradition. Loaded when reviewing or refactoring code that exhibits a smell.
+5. **The Agency workflow** — PRD → Spec → Issues → Code → draft PR, with file-based subagent contracts and resumable per-feature state under `.agency/`.
+6. **Productivity** — `grill-me`, `caveman` mode, `write-a-skill`.
 
-## Quickstart
+## Installation
 
-1. Install the plugin:
+This is a private Claude Code plugin. Install it through Claude Code's plugin marketplace system.
 
-   ```bash
-   npx skills@latest add gierd-inc/dev-skills
-   ```
+### From GitHub
 
-2. Run `/setup-gierd-skills` in your agent. It will:
-   - Ask which issue tracker you use (Linear by default for Gierd repos, with GitHub / GitLab / local-markdown as alternatives)
-   - Confirm the triage label vocabulary
-   - Confirm whether the repo is single- or multi-context (multi-context is default for repos with `CONTEXT-MAP.md`)
+In a Claude Code session, add the marketplace and install:
+
+```
+/plugin marketplace add gierd-inc/dev-skills
+/plugin install gierd@gierd
+```
+
+You'll need GitHub access to `gierd-inc/dev-skills` (SSH key or HTTPS credentials configured for git).
+
+### From a local directory
+
+If you've already cloned the repo somewhere, point Claude Code at the path:
+
+```
+/plugin marketplace add /path/to/dev-skills
+/plugin install gierd@gierd
+```
+
+### After installing
+
+Run `/setup-gierd-skills` in your agent. It will:
+- Ask which issue tracker you use (Linear by default for Gierd repos, with GitHub / GitLab / local-markdown as alternatives)
+- Confirm the triage label vocabulary
+- Confirm whether the repo is single- or multi-context (multi-context is default for repos with `CONTEXT-MAP.md`)
+
+## Development
+
+If you're actively editing the skills, install via the **local directory** route above. Claude Code reads from your working tree, so edits to any `SKILL.md` (or command, agent, etc.) are picked up on the next agent session — no reinstall step:
+
+```
+/plugin marketplace add /path/to/dev-skills
+/plugin install gierd@gierd
+```
+
+For lightweight iteration on just the skills (without registering as a full plugin), use the bundled symlink script:
+
+```bash
+./scripts/link-skills.sh
+```
+
+This symlinks every `SKILL.md` directory under `skills/` (excluding `deprecated/`) into `~/.claude/skills/`. Useful when you only need the skills loaded and don't care about the `/gierd:*` slash commands or Agency subagents.
 
 ## Why these skills exist
 
