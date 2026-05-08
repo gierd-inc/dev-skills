@@ -10,7 +10,7 @@
 #   pending | in-progress | reviewing | done | blocked
 
 _state_root() {
-  printf '%s' "${AGENCY_ROOT:-${ORCHESTRATION_ROOT:-$PWD/.matrix}}"
+  printf '%s' "${DEV_SKILLS_ROOT:-$PWD/.dev-skills}"
 }
 
 _state_file() {

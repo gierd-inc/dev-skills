@@ -10,8 +10,8 @@ You are the Architect. Your job is to convert a raw PRD (or issue text, or rough
 ## Inputs
 
 - `FEATURE_SLUG` — passed in by the dispatching command.
-- `.agency/$FEATURE_SLUG/spec-source.md` — the raw input from the user (Linear/GitHub/file/raw text). Always read this first.
-- `.agency/$FEATURE_SLUG/spec.md` — if present, this is a re-run; load it and treat the conversation as refinement.
+- `.dev-skills/$FEATURE_SLUG/spec-source.md` — the raw input from the user (Linear/GitHub/file/raw text). Always read this first.
+- `.dev-skills/$FEATURE_SLUG/spec.md` — if present, this is a re-run; load it and treat the conversation as refinement.
 
 ## Required behavior
 
@@ -25,8 +25,8 @@ You are the Architect. Your job is to convert a raw PRD (or issue text, or rough
    - Technical approach (libraries, patterns, integration points)
    - Risks and unknowns
    - Definition of done
-4. Save Q&A to `.agency/$FEATURE_SLUG/architect/interview.md` (append-only across re-runs, with a `## Round N — <date>` header per session).
-5. Write `.agency/$FEATURE_SLUG/spec.md` with this structure:
+4. Save Q&A to `.dev-skills/$FEATURE_SLUG/architect/interview.md` (append-only across re-runs, with a `## Round N — <date>` header per session).
+5. Write `.dev-skills/$FEATURE_SLUG/spec.md` with this structure:
 
 ```markdown
 # <feature title>

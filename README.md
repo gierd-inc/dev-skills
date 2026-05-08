@@ -18,7 +18,7 @@ The skills cover six broad areas:
 2. **Rails domain knowledge** — one focused skill per Rails layer (models, controllers, views, jobs, mailers, migrations, security, performance, testing, Hotwire, etc.), targeted at Rails 8.1+. Each is loaded on-demand based on what the agent is touching.
 3. **OOP extraction patterns** — value objects, null objects, concerns, presenters, query objects, form objects, service objects, policy objects, and (rarely) repository pattern. Loaded when fat models stop being enough.
 4. **Rails antipatterns** — named smells (fat-controller, callback-hell, service-object-soup, etc.) drawn from *Rails Antipatterns* (Pytel & Saleh) and the 37signals tradition. Loaded when reviewing or refactoring code that exhibits a smell.
-5. **The Agency workflow** — PRD → Spec → Issues → Code → draft PR, with file-based subagent contracts and resumable per-feature state under `.agency/`.
+5. **The Agency workflow** — PRD → Spec → Issues → Code → draft PR, with file-based subagent contracts and resumable per-feature state under `.dev-skills/`.
 6. **Productivity** — `grill-me`, `caveman` mode, `write-a-skill`.
 
 ## Installation
@@ -137,7 +137,7 @@ See [`skills/rails-antipatterns/README.md`](./skills/rails-antipatterns/README.m
 
 ### Agency workflow
 
-PRD → Spec → Issues → Code → draft PR. Resumable per-feature state under `.agency/`.
+PRD → Spec → Issues → Code → draft PR. Resumable per-feature state under `.dev-skills/`.
 
 See [`commands/`](./commands/) for the slash commands (`/gierd:prd-to-spec`, `/gierd:spec-to-issues`, `/gierd:build`, `/gierd:create-pr`, `/gierd:status`, `/gierd:resume`, etc.).
 

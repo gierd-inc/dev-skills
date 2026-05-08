@@ -13,7 +13,7 @@ _memory_now() {
 #   body:  free-form text
 memory_append() {
   local scope="$1" slug="$2" kind="$3" body="$4"
-  local root="${MATRIX_ROOT:-${ORCHESTRATION_ROOT:-$PWD/.matrix}}"
+  local root="${DEV_SKILLS_ROOT:-$PWD/.dev-skills}"
   local file
   case "$scope" in
     feature)

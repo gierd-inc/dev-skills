@@ -7,7 +7,7 @@ You are reporting estimated usage and cost. Do not dispatch any agents. Do not m
 1. Resolve scope from `$ARGUMENTS`:
    - `all` → show all features.
    - A valid slug → show that feature.
-   - Empty → use `.agency/CURRENT`; if not set, show all.
+   - Empty → use `.dev-skills/CURRENT`; if not set, show all.
 
 2. For a single feature, run:
    ```
@@ -26,4 +26,4 @@ You are reporting estimated usage and cost. Do not dispatch any agents. Do not m
 4. Append a reminder:
    > **Note:** costs are estimated from output file sizes (1 token ≈ 4 bytes). For authoritative totals, see Claude Code's session cost reporting. Model prices used: Opus $15/$75 per 1M tokens, Sonnet $3/$15, Haiku $0.80/$4.
 
-5. To see the raw per-dispatch log, read `.agency/<slug>/usage.jsonl` directly.
+5. To see the raw per-dispatch log, read `.dev-skills/<slug>/usage.jsonl` directly.

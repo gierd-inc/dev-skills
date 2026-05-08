@@ -6,7 +6,7 @@ You are shipping the active feature.
 
 1. Resolve the slug:
    - If `$ARGUMENTS` is non-empty, use it.
-   - Else read `.agency/CURRENT`.
+   - Else read `.dev-skills/CURRENT`.
    - Error if neither resolves.
 
 2. Read state:
@@ -24,7 +24,7 @@ You are shipping the active feature.
    - **Push the branch** (if not already): `git -C <worktree> push -u origin HEAD`.
    - **Mark PR ready**: prefer `mcp-server-github update_pull_request` with `draft: false`. Fallback: `gh pr ready <pr_number>`.
    - **Request reviewers from blame**: collect top contributors to changed files (`git -C <worktree> blame --line-porcelain ...`), pick the top 1-2 distinct GitHub usernames, request via `update_pull_request` or `gh pr edit --add-reviewer`.
-   - **Optional issue-tracker sync** (ask the user): if yes, create one Linear/GitHub issue per local issue file under `.agency/<slug>/issues/`. Record the resulting IDs in `state.tracker_sync.linear_ids` / `.github_issue_numbers` keyed by local issue id.
+   - **Optional issue-tracker sync** (ask the user): if yes, create one Linear/GitHub issue per local issue file under `.dev-skills/<slug>/issues/`. Record the resulting IDs in `state.tracker_sync.linear_ids` / `.github_issue_numbers` keyed by local issue id.
    - Set `state_set <slug> .phase '"shipped"'`.
 
 5. Print final status: PR URL, reviewers requested, tracker sync results.

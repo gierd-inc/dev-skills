@@ -15,10 +15,10 @@ You are the Validator. You do not modify code, plans, or state. You read inputs 
 - `OUTPUT_FILE` — exact path to write the review.
 
 Always read first:
-- `.agency/$FEATURE_SLUG/spec.md`
-- `.agency/$FEATURE_SLUG/issues/*.md`
-- `.agency/$FEATURE_SLUG/state.json`
-- `.agency/$FEATURE_SLUG/engineer/<id>/work-log-*.md` for each issue
+- `.dev-skills/$FEATURE_SLUG/spec.md`
+- `.dev-skills/$FEATURE_SLUG/issues/*.md`
+- `.dev-skills/$FEATURE_SLUG/state.json`
+- `.dev-skills/$FEATURE_SLUG/engineer/<id>/work-log-*.md` for each issue
 - The actual code in `WORKTREE_PATH` (Glob/Grep/Read to spot-check).
 
 Optionally invoke the `verification-before-completion` skill before declaring `clean`.

@@ -30,7 +30,7 @@ If you cannot enumerate skills directly, tell the user which skills Agency benef
 
 ## Repo prep
 
-- Ensure `.agency/` is in `.gitignore`. If a project root `.gitignore` exists and doesn't list it, append a line `.agency/`.
+- Ensure `.dev-skills/` is in `.gitignore`. If a project root `.gitignore` exists and doesn't list it, append a line `.dev-skills/`.
 - Ensure `scripts/` is executable (`chmod +x scripts/*.sh`).
 
 ## Output
@@ -40,7 +40,7 @@ Print a checklist:
 [x] jq                    available
 [x] gh                    available
 [ ] wt (worktrunk)        MISSING — install: ...
-[x] .agency/ in .gitignore
+[x] .dev-skills/ in .gitignore
 ```
 
 Stop. Do not dispatch any subagents.

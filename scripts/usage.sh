@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# usage.sh - per-dispatch usage logging and cost estimation for Matrix.
-# Sourceable. Each dispatch appends one JSONL line to .matrix/<slug>/usage.jsonl.
+# usage.sh - per-dispatch usage logging and cost estimation.
+# Sourceable. Each dispatch appends one JSONL line to .dev-skills/<slug>/usage.jsonl.
 # State rollup lives in state.json under .usage.{total_input_bytes, total_output_bytes, by_agent}.
 #
 # Estimated cost is based on output file size as a proxy for output tokens.
@@ -15,7 +15,7 @@
 # Bytes-to-tokens approximation: 1 token ≈ 4 bytes (rough average for English + code).
 
 _usage_root() {
-  printf '%s' "${MATRIX_ROOT:-${ORCHESTRATION_ROOT:-$PWD/.matrix}}"
+  printf '%s' "${DEV_SKILLS_ROOT:-$PWD/.dev-skills}"
 }
 
 _usage_file() {
@@ -180,7 +180,7 @@ usage_summary() {
 usage_summary_all() {
   local root
   root="$(_usage_root)"
-  [ -d "$root" ] || { echo "No .matrix directory found."; return 0; }
+  [ -d "$root" ] || { echo "No .dev-skills directory found."; return 0; }
 
   local total_cost=0
   while IFS= read -r slug; do

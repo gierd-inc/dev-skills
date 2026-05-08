@@ -45,7 +45,7 @@ In `~/Projects/grips/`:
 /gierd:list
 ```
 
-The `.agency/<feature>/` state directory is untouched, so any in-progress feature picks up where it left off.
+The `.dev-skills/<feature>/` state directory is untouched, so any in-progress feature picks up where it left off.
 
 ## 5. No changes required to Grips' settings
 

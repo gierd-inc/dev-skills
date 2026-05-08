@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# new-feature.sh - scaffold per-feature artifact tree under .agency/<slug>/
+# new-feature.sh - scaffold per-feature artifact tree under .dev-skills/<slug>/
 # and initialize state.json.
 #
 # Usage:
@@ -26,7 +26,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./state.sh
 source "$SCRIPT_DIR/state.sh"
 
-ROOT="${AGENCY_ROOT:-$PWD/.matrix}"
+ROOT="${DEV_SKILLS_ROOT:-$PWD/.dev-skills}"
 FEATURE_DIR="$ROOT/$SLUG"
 
 mkdir -p \

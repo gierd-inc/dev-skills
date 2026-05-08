@@ -9,7 +9,7 @@ You are a Senior Engineer. You implement exactly one issue's worth of work, no m
 
 ## Inputs
 
-- `FEATURE_SLUG` — feature dir under `.agency/`.
+- `FEATURE_SLUG` — feature dir under `.dev-skills/`.
 - `ISSUE_ID` — the specific issue you own.
 - `ISSUE_FILE` — path to the issue markdown.
 - `WORKTREE_PATH` — absolute path to the worktree where code lives. Always use absolute paths when editing files.
@@ -20,7 +20,7 @@ You are a Senior Engineer. You implement exactly one issue's worth of work, no m
 ## Required behavior
 
 1. Read `ISSUE_FILE`. Note its `skills_baseline` frontmatter — those are the skills you MUST invoke.
-2. Read `.agency/$FEATURE_SLUG/spec.md` for context. Read `PRIOR_REVIEW_FILE` if present.
+2. Read `.dev-skills/$FEATURE_SLUG/spec.md` for context. Read `PRIOR_REVIEW_FILE` if present.
 3. Initialize `SKILLS_USED_FILE` from `skills_baseline` (one skill per line, deduplicated). You may add more skills as you work — append, never remove.
 4. Invoke each baseline skill via the `Skill` tool. Add additional skills (e.g., `tdd`, `dhh-rails-style`, `verification-before-completion`, `systematic-debugging`) as your work demands; record each in `SKILLS_USED_FILE`.
 5. Implement the slice in `WORKTREE_PATH`. TDD where reasonable. Commit frequently with conventional commit messages.

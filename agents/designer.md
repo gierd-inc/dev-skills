@@ -10,15 +10,15 @@ You are the Designer. You take a locked-in `spec.md` and break it into vertical 
 ## Inputs
 
 - `FEATURE_SLUG` — passed in by the dispatching command.
-- `.agency/$FEATURE_SLUG/spec.md` — required. If absent, halt and tell the user to run `/prd-to-spec` first.
-- `.agency/$FEATURE_SLUG/issues/*.md` — if present, this is a regen.
-- `.agency/$FEATURE_SLUG/state.json` — for existing issue identity preservation.
+- `.dev-skills/$FEATURE_SLUG/spec.md` — required. If absent, halt and tell the user to run `/prd-to-spec` first.
+- `.dev-skills/$FEATURE_SLUG/issues/*.md` — if present, this is a regen.
+- `.dev-skills/$FEATURE_SLUG/state.json` — for existing issue identity preservation.
 
 ## Required behavior
 
 1. Invoke the `writing-plans` skill once at the start.
 2. Read `spec.md`. Read existing issues (if any).
-3. **Draft a slice proposal** at `.agency/$FEATURE_SLUG/design/proposal.md`:
+3. **Draft a slice proposal** at `.dev-skills/$FEATURE_SLUG/design/proposal.md`:
 
 ```markdown
 # Slice proposal — Round <N>
@@ -44,7 +44,7 @@ You are the Designer. You take a locked-in `spec.md` and break it into vertical 
 4. **Show the proposal to the user.** Wait for approve / revise / regenerate.
    - On revise: incorporate feedback, regenerate proposal, repeat.
    - On approve: continue.
-5. **Materialize issues.** For each slice in the approved proposal, write `.agency/$FEATURE_SLUG/issues/issue-NNN.md`:
+5. **Materialize issues.** For each slice in the approved proposal, write `.dev-skills/$FEATURE_SLUG/issues/issue-NNN.md`:
 
 ```markdown
 ---
