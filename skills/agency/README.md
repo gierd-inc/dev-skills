@@ -1,6 +1,6 @@
-# Agency Skills
+# Gierd Dev Skills
 
-The Agency PRD-to-shipped workflow: PRD → Spec → Issues → Code → review → draft PR. File-based subagent contracts with resumable per-feature state under `.dev-skills/`.
+The Gierd Dev Skills PRD-to-shipped workflow: PRD → Spec → Issues → Code → review → draft PR. File-based subagent contracts with resumable per-feature state under `.dev-skills/`.
 
 These come from [agency-plugin](https://github.com/ryenski/agency-plugin) and are loaded by the orchestration commands under `commands/`.
 
@@ -10,6 +10,6 @@ These come from [agency-plugin](https://github.com/ryenski/agency-plugin) and ar
 
 ## Workflow
 
-The Agency commands (`/gierd:prd-to-spec`, `/gierd:spec-to-issues`, `/gierd:build`, `/gierd:create-pr`, `/gierd:status`, `/gierd:resume`, `/gierd:setup`, etc.) live under [`commands/`](../../commands/) at the repo root.
+The Gierd Dev Skills commands (`/gierd:prd-to-spec`, `/gierd:spec-to-issues`, `/gierd:build`, `/gierd:create-pr`, `/gierd:status`, `/gierd:resume`, `/gierd:setup`, etc.) live under [`commands/`](../../commands/) at the repo root.
 
 State lives under `.dev-skills/<feature-slug>/`. Add `.dev-skills/` to `.gitignore` for any project that uses these commands — `/gierd:setup` will offer to do that for you.

@@ -4,7 +4,7 @@ Skills are organized into bucket folders under `skills/`:
 - `rails/` — Rails-domain references, loaded on-demand
 - `oop/` — OOP design patterns for Rails (value objects, presenters, service objects, etc.)
 - `rails-antipatterns/` — named Rails antipatterns with idiomatic fixes
-- `agency/` — Agency PRD-to-shipped workflow skills
+- `agency/` — Gierd Dev Skills PRD-to-shipped workflow skills
 - `productivity/` — daily non-code workflow tools
 - `misc/` — kept around but rarely used
 - `deprecated/` — no longer used

@@ -4,9 +4,9 @@
 
 Plugin name: `gierd`. Commands: `/gierd:build`, `/gierd:prd-to-spec`, `/gierd:status`, etc.
 
-Agent skills for Gierd's Ruby on Rails engineering workflow — daily-driver process tools, the Agency PRD-to-shipped pipeline, and a complete set of Rails-domain skills.
+Agent skills for Gierd's Ruby on Rails engineering workflow — daily-driver process tools, the Gierd Dev Skills PRD-to-shipped pipeline, and a complete set of Rails-domain skills.
 
-> Forked from [mattpocock/skills](https://github.com/mattpocock/skills) and [ryenski/agency-plugin](https://github.com/ryenski/agency-plugin). Process skills (grill, triage, to-prd, to-issues, diagnose, tdd, improve-architecture) come from Matt Pocock's set; Rails skills and the Agency workflow come from the agency-plugin. Both are credited inline in their respective `SKILL.md` files where retained verbatim.
+> Forked from [mattpocock/skills](https://github.com/mattpocock/skills) and [ryenski/agency-plugin](https://github.com/ryenski/agency-plugin). Process skills (grill, triage, to-prd, to-issues, diagnose, tdd, improve-architecture) come from Matt Pocock's set; Rails skills and the Gierd Dev Skills workflow come from the agency-plugin. Both are credited inline in their respective `SKILL.md` files where retained verbatim.
 
 ## What's in this repo
 
@@ -18,7 +18,7 @@ The skills cover six broad areas:
 2. **Rails domain knowledge** — one focused skill per Rails layer (models, controllers, views, jobs, mailers, migrations, security, performance, testing, Hotwire, etc.), targeted at Rails 8.1+. Each is loaded on-demand based on what the agent is touching.
 3. **OOP extraction patterns** — value objects, null objects, concerns, presenters, query objects, form objects, service objects, policy objects, and (rarely) repository pattern. Loaded when fat models stop being enough.
 4. **Rails antipatterns** — named smells (fat-controller, callback-hell, service-object-soup, etc.) drawn from *Rails Antipatterns* (Pytel & Saleh) and the 37signals tradition. Loaded when reviewing or refactoring code that exhibits a smell.
-5. **The Agency workflow** — PRD → Spec → Issues → Code → draft PR, with file-based subagent contracts and resumable per-feature state under `.dev-skills/`.
+5. **The Gierd Dev Skills workflow** — PRD → Spec → Issues → Code → draft PR, with file-based subagent contracts and resumable per-feature state under `.dev-skills/`.
 6. **Productivity** — `grill-me`, `caveman` mode, `write-a-skill`.
 
 ## Installation
@@ -68,7 +68,7 @@ For lightweight iteration on just the skills (without registering as a full plug
 ./scripts/unlink-skills.sh  # remove the symlinks created above
 ```
 
-`link-skills.sh` symlinks every `SKILL.md` directory under `skills/` (excluding `deprecated/`) into `~/.claude/skills/`. `unlink-skills.sh` removes only the symlinks pointing back into this repo, leaving any unrelated entries in `~/.claude/skills/` untouched. Useful when you only need the skills loaded and don't care about the `/gierd:*` slash commands or Agency subagents.
+`link-skills.sh` symlinks every `SKILL.md` directory under `skills/` (excluding `deprecated/`) into `~/.claude/skills/`. `unlink-skills.sh` removes only the symlinks pointing back into this repo, leaving any unrelated entries in `~/.claude/skills/` untouched. Useful when you only need the skills loaded and don't care about the `/gierd:*` slash commands or Gierd Dev Skills subagents.
 
 ## Why these skills exist
 
@@ -135,7 +135,7 @@ Antipattern references — what *not* to do, and what to do instead. Drawn from 
 
 See [`skills/rails-antipatterns/README.md`](./skills/rails-antipatterns/README.md) for the full list.
 
-### Agency workflow
+### Gierd Dev Skills workflow
 
 PRD → Spec → Issues → Code → draft PR. Resumable per-feature state under `.dev-skills/`.
 

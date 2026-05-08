@@ -1,5 +1,5 @@
 ---
-description: Print Agency status for the active (or specified) feature. Read-only; dispatches no agents.
+description: Print Gierd Dev Skills status for the active (or specified) feature. Read-only; dispatches no agents.
 ---
 
 You are reporting status. Do not dispatch any agents. Do not modify state.

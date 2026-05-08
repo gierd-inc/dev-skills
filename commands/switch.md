@@ -1,5 +1,5 @@
 ---
-description: Change the active Agency feature pointer (.dev-skills/CURRENT).
+description: Change the active Gierd Dev Skills feature pointer (.dev-skills/CURRENT).
 ---
 
 You are switching the active feature. Argument: `$ARGUMENTS` (a feature slug).

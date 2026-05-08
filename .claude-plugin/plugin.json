@@ -1,7 +1,7 @@
 {
   "name": "gierd",
   "version": "0.1.0",
-  "description": "Gierd's agent skills: process tools (grill/triage/to-prd/to-issues/diagnose/tdd/improve-architecture), Rails domain references, and the Agency PRD-to-shipped workflow. Commands namespaced under /gierd:.",
+  "description": "Gierd's agent skills: process tools (grill/triage/to-prd/to-issues/diagnose/tdd/improve-architecture), Rails domain references, and the Gierd Dev Skills PRD-to-shipped workflow. Commands namespaced under /gierd:.",
   "author": {
     "name": "Gierd"
   }

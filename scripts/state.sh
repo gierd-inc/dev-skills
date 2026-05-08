@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# state.sh - per-feature state.json helpers for the Agency plugin.
+# state.sh - per-feature state.json helpers for the Gierd Dev Skills plugin.
 # Sourceable: do NOT set -e at file level. Callers control their own shell options.
 #
 # Phase enum:
