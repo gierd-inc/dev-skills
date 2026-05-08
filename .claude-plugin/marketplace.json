@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "gierd",
-  "description": "Gierd's Ruby on Rails engineering workflow — process tools, Rails 8.1+ domain references, OOP extraction patterns, Rails antipattern references, and the Gierd Dev Skills PRD-to-shipped pipeline.",
+  "description": "Gierd Dev Skills — Ruby on Rails engineering workflow with process tools, Rails 8.1+ domain references, OOP extraction patterns, Rails antipattern references, and the PRD-to-shipped pipeline.",
   "owner": {
     "name": "Gierd",
     "url": "https://github.com/gierd-inc"
@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "gierd",
-      "description": "Process tools (grill/triage/to-prd/to-issues/diagnose/tdd), Rails 8.1+ domain references, OOP extraction patterns, Rails antipattern references, and the Gierd Dev Skills PRD-to-shipped workflow. Commands namespaced under /gierd:.",
+      "description": "Gierd Dev Skills — process tools (grill/triage/to-prd/to-issues/diagnose/tdd), Rails 8.1+ domain references, OOP extraction patterns, Rails antipattern references, and the PRD-to-shipped workflow. Commands namespaced under /gierd:.",
       "source": "./",
       "category": "engineering"
     }
