@@ -85,6 +85,18 @@ Domain skills loaded on-demand based on what the agent is touching. Each is a fo
 
 See [`skills/rails/README.md`](./skills/rails/README.md) for the full list with one-line descriptions.
 
+### OOP Patterns
+
+Extraction patterns for when Rails' defaults stop being enough — value objects, null objects, concerns, presenters, query objects, form objects, service objects, policy objects, and (rarely) repository pattern.
+
+See [`skills/oop/README.md`](./skills/oop/README.md) for the full list with one-line descriptions.
+
+### Rails antipatterns
+
+Antipattern references — what *not* to do, and what to do instead. Drawn from *Rails Antipatterns* (Pytel & Saleh) and the 37signals tradition (DHH, Jorge Manrubia). Load when reviewing or refactoring code that exhibits a smell.
+
+See [`skills/rails-antipatterns/README.md`](./skills/rails-antipatterns/README.md) for the full list.
+
 ### Agency workflow
 
 PRD → Spec → Issues → Code → draft PR. Resumable per-feature state under `.agency/`.
