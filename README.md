@@ -41,7 +41,7 @@ You'll need GitHub access to `gierd-inc/dev-skills` (SSH key or HTTPS credential
 If you've already cloned the repo somewhere, point Claude Code at the path:
 
 ```bash
-claude plugin marketplace add /path/to/dev-skills
+claude plugin marketplace add ~/Projects/dev-skills
 claude plugin install gierd@gierd
 ```
 
@@ -57,7 +57,7 @@ Run `/setup-gierd-skills` in your agent. It will:
 If you're actively editing the skills, install via the **local directory** route above. Claude Code reads from your working tree, so edits to any `SKILL.md` (or command, agent, etc.) are picked up on the next agent session — no reinstall step:
 
 ```bash
-claude plugin marketplace add /path/to/dev-skills
+claude plugin marketplace add ~/Projects/dev-skills
 claude plugin install gierd@gierd
 ```
 
