@@ -111,7 +111,8 @@ description: Use when asking about general Rails conventions, the Rails Way, pro
 - PostgreSQL or SQLite (project-dependent)
 - Turbo & Stimulus (latest)
 - TailwindCSS via RubyGem, DaisyUI for semantic CSS classes
-- Kamal for Docker-based deploys
+- Propshaft (asset pipeline), Solid Queue/Cache/Cable (DB-backed)
+- Kamal 2 + Kamal Proxy + Thruster for Docker-based deploys
 
 ## Reference Docs
 - Rails Edge API: https://edgeapi.rubyonrails.org

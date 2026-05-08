@@ -1,5 +1,22 @@
 # Rails Performance & Caching — Code Examples
 
+## Async Queries (parallel aggregates)
+
+```ruby
+# Kick off independent queries concurrently, then await
+def dashboard
+  posts_promise    = Post.published.async_count
+  comments_promise = Comment.recent.async_count
+  top_authors      = Author.top.async_pluck(:id, :name)
+
+  @posts_count    = posts_promise.value
+  @comments_count = comments_promise.value
+  @top_authors    = top_authors.value
+end
+```
+
+Use only for queries that don't depend on each other; sequential awaits negate the win.
+
 ## N+1 Prevention
 
 ```ruby
@@ -201,16 +218,21 @@ end
 
 ```ruby
 # config/environments/production.rb
-config.cache_store = :redis_cache_store, {
-  url: ENV['REDIS_URL'],
-  connect_timeout: 30,
-  read_timeout: 0.2,
-  write_timeout: 0.2,
-  reconnect_attempts: 1,
-  error_handler: ->(method:, returning:, exception:) {
-    Rails.logger.error "Cache error: #{exception.message}"
-  }
-}
+
+# Solid Cache (Rails 8 default) — DB-backed, no Redis required
+config.cache_store = :solid_cache_store
+
+# Or Redis if you already run it
+# config.cache_store = :redis_cache_store, {
+#   url: ENV['REDIS_URL'],
+#   connect_timeout: 30,
+#   read_timeout: 0.2,
+#   write_timeout: 0.2,
+#   reconnect_attempts: 1,
+#   error_handler: ->(method:, returning:, exception:) {
+#     Rails.logger.error "Cache error: #{exception.message}"
+#   }
+# }
 
 config.active_record.query_cache_enabled = true
 config.action_controller.enable_fragment_cache_logging = true
@@ -221,7 +243,7 @@ config.action_controller.enable_fragment_cache_logging = true
 ```ruby
 # config/puma.rb
 workers_count = ENV.fetch('RAILS_MAX_WORKERS') { 2 }.to_i
-threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }.to_i
+threads_count = ENV.fetch('RAILS_MAX_THREADS') { 3 }.to_i  # Rails 8 default lowered 5 → 3
 
 workers workers_count if workers_count > 0
 threads threads_count, threads_count

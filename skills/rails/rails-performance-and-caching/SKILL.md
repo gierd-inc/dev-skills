@@ -16,6 +16,7 @@ description: "use when optimizing Rails performance, database queries (N+1, incl
 - Prefer `update_all`, `insert_all`, and `delete_all` for bulk operations (skips callbacks and AR object instantiation)
 - Log and alert on queries slower than 100ms; use `relation.explain` / `EXPLAIN ANALYZE` to inspect plans
 - Monitor N+1 patterns in development via `ActiveSupport::Notifications` or Bullet gem
+- For independent aggregates that can run in parallel, use the async query API — `async_count`, `async_pluck`, `async_sum`, `async_minimum`, `async_maximum`, `async_average`, `async_pick`, `async_ids` — each returns an `ActiveRecord::Promise`; call `.value` to await. Best for controllers issuing multiple unrelated queries against an async-capable adapter.
 
 ## Fragment / Russian Doll Caching
 
@@ -27,7 +28,7 @@ description: "use when optimizing Rails performance, database queries (N+1, incl
 - Use `Rails.cache.delete_matched("pattern/*")` for wildcard invalidation
 - Warm critical caches via background jobs (`CacheWarmingJob`) scheduled before peak traffic
 - Use `cache_if user_signed_in?, [...]` for conditional caching based on auth state
-- For production: use SolidCache (database-backed) or Redis cache store
+- For production: use Solid Cache (database-backed, default in Rails 8) or Redis cache store
 
 ## HTTP Caching
 
@@ -38,7 +39,8 @@ description: "use when optimizing Rails performance, database queries (N+1, incl
 
 ## App Server / Puma Tuning
 
-- Set `workers` to CPU core count; set `threads` to match `RAILS_MAX_THREADS` (default 5)
+- Set `workers` to CPU core count; set `threads` to match `RAILS_MAX_THREADS` (Rails 8 default `3`, down from 5, to reduce GVL contention)
+- YJIT is enabled by default on Ruby 3.3+ (~15-25% latency win) — leave it on; `config.yjit = false` only if profiling shows regression
 - Always call `preload_app!` in production; disconnect/reconnect the DB pool in `before_fork`/`on_worker_boot`
 - Set `worker_timeout 60` and `worker_shutdown_timeout 30` to prevent hung workers
 - Monitor memory per worker; log at 1% sampling rate using middleware; restart workers that exceed thresholds

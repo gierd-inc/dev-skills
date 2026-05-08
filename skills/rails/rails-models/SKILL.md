@@ -49,11 +49,23 @@ description: Use when working with Active Record models, associations, validatio
 - Prefer `after_commit` for side-effects that rely on a successful save
 - Do not chain multiple callbacks for business logic
 - Extract complex logic to a concern or domain model in `app/models/domain/`
+- For one-off post-commit work, use per-transaction callbacks: `transaction { |t| t.after_commit { ... } }` or `ActiveRecord.after_all_transactions_commit { ... }` (works inside or outside a transaction)
+- Active Job auto-defers `perform_later` until after commit (Rails 7.2+ default) — no need to wrap enqueues in `after_commit`
+
+## Associations: Deprecation
+- Mark unused associations with `has_many :posts, deprecated: true` (modes: `:warn` default, `:raise`, `:notify`). Catches direct + indirect uses (preload, nested attrs).
+
+## Async Queries
+- Use `async_count`, `async_pluck`, `async_sum`, `async_pick`, `async_ids`, etc. for parallel I/O. Returns `ActiveRecord::Promise`; call `.value` to await. Useful when a controller needs multiple independent aggregates.
 
 ## Attributes (Rails Edge)
 
 ### Data Normalization
 - Use `normalizes` for automatic data cleaning: `normalizes :email, with: ->(e) { e.strip.downcase }`
+- Applied on assignment, persistence, and `where` keyword args
+
+### Token Generation
+- Use `generates_token_for :purpose, expires_in: 15.minutes` for signed, scoped tokens (password reset, magic links). Embed invalidation data in the block (e.g. `password_salt&.last(10)`). Pair with `find_by_token_for(:purpose, token)`.
 
 ### Enums
 - Use `enum :status, { draft: 0, published: 1 }, suffix: true, scopes: false`

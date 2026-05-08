@@ -7,7 +7,7 @@ description: use when writing Rails Active Record migrations, schema changes, in
 
 ## General Guidelines
 
-- Always use `ActiveRecord::Migration[7.1]` or current version
+- Always use `ActiveRecord::Migration[8.1]` or current version
 - Use `null: false` on columns and references unless explicitly optional
 - Use `change` method unless up/down is required for reversibility
 - Prefer `schema.rb` for structure dumps unless using PostgreSQL + raw SQL
@@ -39,6 +39,12 @@ description: use when writing Rails Active Record migrations, schema changes, in
 - Use `find_each(batch_size: 1000)` for large datasets
 - Use `update_columns` to skip callbacks and validations during backfills
 - Always provide a reversible `down` block or document why rollback is unsafe
+
+## Running Migrations
+
+- `db:migrate` on a fresh DB (Rails 8.0+) loads `schema.rb` first, then runs pending migrations — fast, deterministic
+- Use `db:migrate:reset` for the old behavior (drop, create, run all migrations from scratch)
+- Composite primary keys: pass `primary_key: %i[a b]` to `create_table` (see `rails-composite-keys`)
 
 ## Helpers
 

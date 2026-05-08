@@ -10,7 +10,7 @@ description: use when writing Action Cable channels, WebSocket subscriptions, br
 - Use one channel per resource domain (e.g., `ChatChannel`, `RoomChannel`)
 - Channels manage WebSocket subscriptions; streams represent broadcast sources
 - Use multiple `stream_for` or `stream_from` calls within one channel when needed
-- Use SolidCable in production for reliable WebSocket connections
+- Use Solid Cable in production — the Rails 8 default DB-backed pub/sub adapter (no Redis required; ~1 day message retention)
 - Never use dynamic string interpolation in stream names without explicit authorization
 
 ## Subscription Lifecycle

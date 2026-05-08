@@ -31,8 +31,9 @@ description: use when working with Active Storage file attachments, variants, di
 
 ## Storage Backends
 
-- Define backends in `config/storage.yml`
+- Define backends in `config/storage.yml` (built-in services: `Disk`, `S3`, `GCS`, `Mirror`)
 - Set service per environment in `config/environments/*.rb`: `config.active_storage.service = :local`
 - Run `rails active_storage:install` to add required tables
+- Note: the Azure backend is deprecated as of Rails 8.0
 
 See `references/examples.md` for code samples.

@@ -56,6 +56,7 @@ description: use when implementing Rails authentication (Rails 8+ has_secure_pas
 - Use strong parameters (`params.expect`) — see rails-controllers skill
 - Validate file uploads: check `byte_size` and `content_type` in model validations
 - Reject files exceeding size limit or outside allowed MIME types
+- ReDoS mitigation: Rails 8 sets `Regexp.timeout = 1` (second) by default — leave it on; audit any custom user-supplied regex against catastrophic backtracking
 
 ## Security Monitoring
 

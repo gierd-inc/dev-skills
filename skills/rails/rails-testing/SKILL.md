@@ -31,6 +31,8 @@ This codebase uses Minitest with fixtures exclusively. Do NOT use RSpec or Facto
 
 - Place in `test/jobs/`, use `ActiveJob::TestCase`
 - Assert enqueued and performed jobs with `assert_enqueued_with` / `assert_performed_with`
+- Rails 7.2+ defers `perform_later` until after the surrounding transaction commits. Inside a controller test wrapped in transactional fixtures, the enqueue happens at commit — use `assert_enqueued_jobs` around the request, or wrap setup in an explicit `ActiveRecord::Base.transaction { ... }` so commit fires. Jobs are dropped on rollback.
+- Use `assert_enqueued_jobs n do ... end` for bulk enqueues (`perform_all_later`)
 
 ## Mailer Tests
 

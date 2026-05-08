@@ -30,10 +30,12 @@ app/
 # config/application.rb
 module MyApp
   class Application < Rails::Application
-    config.autoload_paths << Rails.root.join('lib')
+    # Rails 7.1+: include `lib/` in autoload + eager-load paths (default in new apps).
+    # Not available for engines.
+    config.autoload_lib(ignore: %w(assets tasks generators))
+
     config.autoload_paths << Rails.root.join('app', 'forms')
     config.autoload_paths << Rails.root.join('app', 'presenters')
-    config.eager_load_paths << Rails.root.join('lib')
   end
 end
 ```

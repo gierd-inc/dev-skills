@@ -208,6 +208,28 @@ Rails.logger.tagged("User: #{current_user.id}") { logger.info "Starting job..." 
 config.log_tags = [:request_id, ->(req) { "User: #{req.env['warden']&.user&.id}" }]
 ```
 
+## Structured Events (Rails.event, 8.1+)
+
+```ruby
+# Emit
+Rails.event.notify("order.placed", order_id: order.id, total_cents: order.total_cents)
+
+# Ambient tags + context (e.g. in a controller around_action)
+around_action do |_, block|
+  Rails.event.set_context(request_id: request.uuid, user_id: current_user&.id)
+  Rails.event.tagged("web") { block.call }
+end
+
+# Subscriber (any object responding to #emit)
+class AnalyticsSubscriber
+  def emit(event)
+    Analytics.track(event.name, event.payload.merge(event.context))
+  end
+end
+
+Rails.event.subscribe(AnalyticsSubscriber.new)
+```
+
 ## Debug Gem Usage
 
 ```ruby

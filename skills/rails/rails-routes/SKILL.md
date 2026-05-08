@@ -10,6 +10,7 @@ description: Use when working with Rails routing, resourceful routes, route cons
 - Use `only:` or `except:` to limit unnecessary routes
 - Use `root to:` for root-level route definition
 - Organize routes into blocks with comments for clarity
+- Do not pass an array of paths to a single route (e.g. `get ["foo", "bar"], to: ...`) — deprecated in Rails 8.0; declare each path separately
 
 ## RESTful Resources
 - Always define RESTful routes with `resources`

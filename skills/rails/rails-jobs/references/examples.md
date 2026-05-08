@@ -53,6 +53,47 @@ class DataImportJob < ApplicationJob
 end
 ```
 
+## Bulk Enqueue
+
+```ruby
+jobs = User.find_each.map { |u| NotificationJob.new(u.id) }
+ActiveJob.perform_all_later(jobs)
+```
+
+## Resumable Long-Running Job (Rails 8.1+)
+
+```ruby
+class BackfillJob < ApplicationJob
+  include ActiveJob::Continuable
+
+  def perform(model)
+    step :reset_counters
+    step :backfill_data do |step|
+      model.find_each(start: step.cursor) do |record|
+        record.update!(counter: record.children.count)
+        step.advance! from: record.id
+      end
+    end
+  end
+
+  private
+
+  def reset_counters
+    # ...
+  end
+end
+```
+
+## Transactional Enqueue (no after_commit wrapper needed)
+
+```ruby
+ApplicationRecord.transaction do
+  order.update!(state: :paid)
+  # Enqueued only if the transaction commits — automatic since Rails 7.2
+  ReceiptJob.perform_later(order.id)
+end
+```
+
 ## Mailer Delivery (prefer deliver_later)
 
 ```ruby

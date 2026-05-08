@@ -226,3 +226,52 @@ t.create_table :posts do |t|
   t.timestamps null: false
 end
 ```
+
+## Token Generation
+
+```ruby
+class User < ApplicationRecord
+  has_secure_password
+
+  generates_token_for :password_reset, expires_in: 15.minutes do
+    password_salt&.last(10) # invalidates token after password change
+  end
+end
+
+# Issue
+token = user.generate_token_for(:password_reset)
+
+# Consume
+User.find_by_token_for(:password_reset, token)
+```
+
+## Per-Transaction Callbacks
+
+```ruby
+Article.transaction do |tx|
+  article.update!(published: true)
+  tx.after_commit { Notifier.notify(article) }
+end
+
+# Outside or inside a transaction:
+ActiveRecord.after_all_transactions_commit { Audit.log(:published, article) }
+```
+
+## Async Queries
+
+```ruby
+def dashboard
+  @open_count    = Ticket.open.async_count
+  @recent_titles = Ticket.recent.async_pluck(:title)
+  # Resolved on access in the view, or explicitly:
+  @open_count = @open_count.value
+end
+```
+
+## Deprecated Association
+
+```ruby
+class User < ApplicationRecord
+  has_many :legacy_invites, deprecated: true # :warn (default), :raise, :notify
+end
+```

@@ -8,17 +8,16 @@ image: myapp
 
 servers:
   web:
-    hosts:
-      - 192.168.1.1
-      - 192.168.1.2
-    labels:
-      traefik.http.routers.myapp.rule: Host(`myapp.com`)
-      traefik.http.routers.myapp.tls: true
-      traefik.http.routers.myapp.tls.certresolver: letsencrypt
+    - 192.168.1.1
+    - 192.168.1.2
   job:
     hosts:
       - 192.168.1.3
-    cmd: bundle exec sidekiq
+    cmd: bin/jobs
+
+proxy:
+  ssl: true
+  host: myapp.com
 
 registry:
   server: ghcr.io
@@ -33,13 +32,12 @@ env:
   secret:
     - RAILS_MASTER_KEY
     - DATABASE_URL
-    - REDIS_URL
 
 volumes:
   - "/app/storage:/rails/storage"
 
 healthcheck:
-  path: /health
+  path: /up
   port: 3000
   max_attempts: 10
   interval: 5s
@@ -47,6 +45,14 @@ healthcheck:
 asset_path: /rails/public/assets
 boot:
   limit: 10
+```
+
+## .kamal/secrets
+
+```bash
+# .kamal/secrets — interpolated at deploy time, never committed
+KAMAL_REGISTRY_PASSWORD=$(rails credentials:fetch kamal.registry_password)
+RAILS_MASTER_KEY=$(cat config/master.key)
 ```
 
 ## Staging deploy.yml
@@ -72,38 +78,56 @@ env:
 
 ## Production Dockerfile
 
-```dockerfile
-FROM ruby:3.2-alpine AS base
+Closely mirrors the Rails 8 generated Dockerfile: slim base, jemalloc, YJIT, Thruster fronting Puma.
 
-RUN apk add --no-cache build-base postgresql-dev git nodejs npm
+```dockerfile
+ARG RUBY_VERSION=3.3.5
+FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
 WORKDIR /rails
 
-FROM base AS gems
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+ENV RAILS_ENV=production \
+    BUNDLE_DEPLOYMENT=1 \
+    BUNDLE_PATH=/usr/local/bundle \
+    BUNDLE_WITHOUT=development:test \
+    LD_PRELOAD=libjemalloc.so.2 \
+    MALLOC_CONF=dirty_decay_ms:1000,narenas:2,background_thread:true \
+    RUBY_YJIT_ENABLE=1
+
+FROM base AS build
+
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
 COPY Gemfile Gemfile.lock ./
-RUN bundle config --global frozen 1 && \
-    bundle install --without development test
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile --gemfile
 
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
-
-FROM base AS app
-COPY --from=gems /usr/local/bundle /usr/local/bundle
-COPY --from=gems /rails/node_modules /rails/node_modules
 COPY . .
+RUN bundle exec bootsnap precompile app/ lib/
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
-RUN SECRET_KEY_BASE=DUMMY bundle exec rails assets:precompile
+FROM base
 
-RUN addgroup -g 1000 -S rails && adduser -u 1000 -S rails -G rails
-RUN chown -R rails:rails /rails
-USER rails
+COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --from=build /rails /rails
 
-EXPOSE 3000
+RUN groupadd --system --gid 1000 rails && \
+    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
+    chown -R rails:rails db log storage tmp
+USER 1000:1000
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3000/health || exit 1
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+# Thruster fronts Puma: serves compressed assets, X-Sendfile, caching.
+EXPOSE 80
+CMD ["./bin/thrust", "./bin/rails", "server"]
 ```
 
 ## config/environments/production.rb

@@ -35,9 +35,16 @@ Always declare configuration in this order:
 - Use descriptive method names for authorization checks
 - Return appropriate HTTP status codes (`head :forbidden`, etc.)
 
+## Browser Guard
+- `ApplicationController` should declare `allow_browser versions: :modern` (default in new apps). Customize per-controller/action with `only:`/`except:` or a version hash. Blocked clients receive HTTP 406 from `public/406-unsupported-browser.html`.
+
 ## Rate Limiting
-- Use declarative rate limiting syntax
+- Use declarative `rate_limit to:, within:, only:, with:` (Rails 7.2+)
 - Always provide a custom rejection handler
+
+## Response Formats
+- `format.turbo_stream` for Turbo updates
+- `format.md { render markdown: object }` (Rails 8.1+) — `object` must respond to `to_markdown`
 
 ## Turbo Stream Responses
 - Use `respond_to` with `format.turbo_stream` in create/update/destroy

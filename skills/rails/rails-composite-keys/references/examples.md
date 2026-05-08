@@ -4,7 +4,7 @@
 
 ```ruby
 # db/migrate/20240705000000_create_memberships.rb
-class CreateMemberships < ActiveRecord::Migration[7.1]
+class CreateMemberships < ActiveRecord::Migration[8.1]
   def change
     create_table :memberships, primary_key: %i[user_id team_id] do |t|
       t.references :user, null: false, foreign_key: true
@@ -21,10 +21,27 @@ end
 ```ruby
 # app/models/membership.rb
 class Membership < ApplicationRecord
-  self.primary_keys = :user_id, :team_id
+  self.primary_key = [:user_id, :team_id]
 
   belongs_to :user
   belongs_to :team
+end
+```
+
+## query_constraints (composite identity without changing the PK)
+
+```ruby
+# Tenant-scoped records: surrogate `id` + `tenant_id` form the logical key
+class Order < ApplicationRecord
+  query_constraints :tenant_id, :id
+
+  belongs_to :customer, query_constraints: [:tenant_id, :customer_id]
+end
+
+class Customer < ApplicationRecord
+  query_constraints :tenant_id, :id
+
+  has_many :orders, query_constraints: [:tenant_id, :id]
 end
 ```
 

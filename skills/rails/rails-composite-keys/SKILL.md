@@ -18,13 +18,15 @@ description: use when working with composite primary keys in Active Record model
 
 ## Model Declarations
 
-- Use the `composite_primary_key` gem
-- Declare with `self.primary_keys = :user_id, :group_id` (not `primary_key=`)
+- Rails 7.1+ ships native composite keys — no gem required
+- Use `self.primary_key = [:user_id, :group_id]` on the model
+- For non-PK composite identity (e.g. tenant-scoped records with surrogate `id`), use `query_constraints :tenant_id, :id` so all generated SQL scopes by the full tuple
 
 ## Associations
 
-- Associations work normally; foreign keys must match the composite declaration
-- Use `foreign_key: [:user_id, :group_id]` explicitly when needed
+- Use `belongs_to :owner, query_constraints: [:tenant_id, :owner_id]` so AR matches the parent on both columns
+- `has_many :memberships, query_constraints: [:tenant_id, :id]` on the inverse side
+- Foreign keys must match the composite declaration; explicit `foreign_key: [:user_id, :group_id]` still works
 - Avoid polymorphic associations with composite keys
 
 ## Querying

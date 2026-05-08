@@ -24,9 +24,14 @@ description: use when dealing with Zeitwerk autoloading, constant resolution, fi
 
 ```ruby
 # config/application.rb
-config.autoload_paths << Rails.root.join('lib')
+# Preferred (Rails 7.1+, default in new apps): adds `lib/` to autoload + eager-load paths
+config.autoload_lib(ignore: %w(assets tasks generators))
+# Once-only variant for code that should not reload:
+# config.autoload_lib_once(ignore: %w(assets tasks))
+# NOTE: autoload_lib is not available in engines.
+
+# Manual paths for other directories:
 config.autoload_paths << Rails.root.join('app', 'forms')
-config.eager_load_paths << Rails.root.join('lib')
 ```
 
 ## Custom Inflections for Acronyms

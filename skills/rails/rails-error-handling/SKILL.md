@@ -42,6 +42,14 @@ description: "use when handling Rails validation errors, exceptions, custom erro
 - Implement circuit breakers for external service calls; return cached fallback on open circuit
 - Add health check endpoints (`/health`) that test database, Redis, and external APIs; return 503 on failure
 
+## Structured Event Reporting (Rails.event)
+
+- Rails 8.1+ ships `Rails.event` for **structured, machine-readable** events — distinct from `Rails.logger` (human-focused logs)
+- Use `Rails.event.notify("user.signup", user_id: user.id, plan: plan)` to emit a typed event
+- Add ambient context with `Rails.event.tagged("graphql") { ... }` and `Rails.event.set_context(request_id: req.uuid)`
+- Subscribers implement `#emit(event)` (event has `name`, `payload`, `tags`, `context`, `timestamp`); register via `Rails.event.subscribe(MySubscriber.new)`
+- Choose the right tool: `Rails.logger` for narrative/debug output, `Rails.event` for analytics/audit/observability pipelines, `Rails.error.report` for exceptions
+
 ## Logging
 
 - Use tagged logging for request context: `Rails.logger.tagged("User: #{id}") { ... }`

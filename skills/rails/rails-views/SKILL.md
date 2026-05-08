@@ -139,6 +139,7 @@ Deprecated: `g_chart` — use ECharts via `app/javascript/echarts/` instead.
 - Hash with multiple keys: one key-value per line with trailing comma
 - Multi-keyword method calls: one arg per line with trailing comma before `)`
 - Use `method(` with opening paren for multi-line calls
+- Declare strict locals at the top of partials: `<%# locals: (user:, size: :base) -%>`. Only keyword args; positional/block args raise at render-time. Use `<%# locals: () %>` to disable locals entirely.
 
 ## Accessibility
 

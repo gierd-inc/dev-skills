@@ -24,6 +24,19 @@ description: use when using Active Support helpers, concerns, time zones, core e
 - Use `included do ... end` for class-level hooks
 - Include concerns in models or controllers as needed
 
+## Serialization (MessagePack)
+
+- Prefer `ActiveSupport::MessagePack` over JSON/Marshal for cookies and cache: smaller, faster, supports Ruby types (Time, Symbol, BigDecimal)
+- `config.active_support.message_serializer = :message_pack`
+- `config.action_dispatch.cookies_serializer = :message_pack`
+- `config.cache_store = :file_store, "tmp/cache", { serializer: :message_pack }`
+
+## Deprecators Registry
+
+- Register gem/engine deprecators with `Rails.application.deprecators[:my_gem] = ActiveSupport::Deprecation.new("2.0", "MyGem")`
+- Lookup via `Rails.application.deprecators[:my_gem].warn(...)`
+- `Rails.application.deprecators.silence { ... }` silences all registered deprecators at once
+
 ## Instrumentation
 
 - Use `ActiveSupport::Notifications.instrument("group.event")` for observability

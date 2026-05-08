@@ -4,7 +4,7 @@
 
 ```ruby
 # db/migrate/20230701123456_create_posts.rb
-class CreatePosts < ActiveRecord::Migration[7.1]
+class CreatePosts < ActiveRecord::Migration[8.1]
   def change
     create_table :posts do |t|
       t.string :title, null: false
@@ -26,7 +26,7 @@ add_check_constraint :posts, "status IN ('draft', 'published')", name: "posts_st
 ## Irreversible Column Change (up/down)
 
 ```ruby
-class FixColumnType < ActiveRecord::Migration[7.1]
+class FixColumnType < ActiveRecord::Migration[8.1]
   def up
     change_column :users, :admin, :boolean, default: false
   end

@@ -1,8 +1,8 @@
 # Rails Skills
 
-Domain references for Rails 7+ work. Each skill is loaded on-demand based on what the agent is touching — you don't need to pull them all into context up front. Skill descriptions advertise their trigger conditions.
+Domain references for Rails 8.1+ work. Each skill is loaded on-demand based on what the agent is touching — you don't need to pull them all into context up front. Skill descriptions advertise their trigger conditions.
 
-These come from [agency-plugin](https://github.com/ryenski/agency-plugin) and are tuned for Gierd's stack: Rails 7+, Hotwire (Turbo + Stimulus), Tailwind, Minitest with fixtures, Solid Queue / Solid Cache, Kamal deployment.
+These come from [agency-plugin](https://github.com/ryenski/agency-plugin) and are tuned for Gierd's stack: Rails 8.1+, Hotwire (Turbo + Stimulus), Tailwind, Minitest with fixtures, Solid Queue / Solid Cache / Solid Cable, Kamal 2 deployment.
 
 ## Layered references
 

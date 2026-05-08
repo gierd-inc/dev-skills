@@ -129,3 +129,27 @@ def download
     disposition: 'attachment'
 end
 ```
+
+## Browser Guard
+
+```ruby
+class ApplicationController < ActionController::Base
+  allow_browser versions: :modern
+end
+
+class LegacyApiController < ApplicationController
+  allow_browser versions: { safari: 16.4, firefox: 121, ie: false }, only: :show
+end
+```
+
+## Markdown Response
+
+```ruby
+def show
+  @page = Page.find(params[:id])
+  respond_to do |format|
+    format.html
+    format.md { render markdown: @page } # @page#to_markdown
+  end
+end
+```
