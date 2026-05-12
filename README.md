@@ -131,21 +131,21 @@ Skills used daily for code work.
 
 ### Rails
 
-Domain skills loaded on-demand based on what the agent is touching. Each is a focused reference for one Rails layer or concern.
+Hub-and-spoke skill covering all Rails layers. The hub (`skills/rails-expert/SKILL.md`) carries the routing table; each layer's reference lives in `skills/rails-expert/references/`. Loaded on-demand based on what the agent is touching; invoke `/gierd:rails-expert` for a full-layer sweep.
 
-See [`skills/rails/README.md`](./skills/rails/README.md) for the full list with one-line descriptions.
+See [`skills/rails-expert/SKILL.md`](./skills/rails-expert/SKILL.md) for the reference guide and routing table.
 
 ### OOP Patterns
 
-Extraction patterns for when Rails' defaults stop being enough — value objects, null objects, concerns, presenters, query objects, form objects, service objects, policy objects, and (rarely) repository pattern.
+Hub-and-spoke skill covering extraction patterns for when Rails' defaults stop being enough — value objects, null objects, concerns, presenters, query objects, form objects, service objects, policy objects, and (rarely) repository pattern. Invoke `/gierd:oop` for a full-pattern sweep.
 
-See [`skills/oop/README.md`](./skills/oop/README.md) for the full list with one-line descriptions.
+See [`skills/oop/SKILL.md`](./skills/oop/SKILL.md) for the reference guide and routing table.
 
 ### Rails antipatterns
 
-Antipattern references — what *not* to do, and what to do instead. Drawn from *Rails Antipatterns* (Pytel & Saleh) and the 37signals tradition (DHH, Jorge Manrubia). Load when reviewing or refactoring code that exhibits a smell.
+Hub-and-spoke skill covering named Rails smells — what *not* to do, and what to do instead. Drawn from *Rails Antipatterns* (Pytel & Saleh) and the 37signals tradition (DHH, Jorge Manrubia). Invoke `/gierd:rails-antipatterns` for a full-antipattern sweep.
 
-See [`skills/rails-antipatterns/README.md`](./skills/rails-antipatterns/README.md) for the full list.
+See [`skills/rails-antipatterns/SKILL.md`](./skills/rails-antipatterns/SKILL.md) for the antipattern catalog and routing table.
 
 ### Gierd Dev Skills workflow
 
