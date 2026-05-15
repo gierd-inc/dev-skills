@@ -78,7 +78,7 @@ Skills auto-load by description match, but they don't appear in the `/` picker. 
 ./scripts/generate-skill-commands.sh
 ```
 
-This walks `skills/**/SKILL.md` and writes a thin wrapper into `commands/` for each one — so `skills/oop/oop/SKILL.md` becomes `/gierd:oop`, `skills/agency/deploy-to-dev/SKILL.md` becomes `/gierd:deploy-to-dev`, etc. Re-run it after adding, renaming, or removing skills.
+This walks `skills/**/SKILL.md` and writes a thin wrapper into `commands/` for each one — so `skills/oop/oop/SKILL.md` becomes `/gierd:oop`, `skills/gierd/deploy-to-dev/SKILL.md` becomes `/gierd:deploy-to-dev`, etc. Re-run it after adding, renaming, or removing skills.
 
 The script is idempotent: wrappers carry an HTML comment marker, and only marked files are touched. Hand-written commands (`build.md`, `prd-to-spec.md`, etc.) are preserved.
 

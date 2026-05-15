@@ -4,12 +4,12 @@ Skills are organized under `skills/`:
 - `rails-expert/` — hub-and-spoke Rails skill; `SKILL.md` is the hub, `references/` holds one file per layer
 - `oop/` — hub-and-spoke OOP patterns skill; `SKILL.md` is the hub, `references/` holds one file per pattern
 - `rails-antipatterns/` — hub-and-spoke antipatterns skill; `SKILL.md` is the hub, `references/` holds one file per smell
-- `agency/` — Gierd Dev Skills PRD-to-shipped workflow skills
+- `gierd/` — Gierd Dev Skills PRD-to-shipped workflow skills
 - `productivity/` — daily non-code workflow tools
 - `misc/` — kept around but rarely used
 - `deprecated/` — no longer used
 
-Every skill in `engineering/`, `agency/`, `productivity/`, or `misc/` must have a reference in that bucket's `README.md`. The three hub skills (`rails-expert`, `oop`, `rails-antipatterns`) are self-indexing — their `SKILL.md` contains the routing table; no bucket `README.md` is needed for them. Skills in `deprecated/` must not appear in any README.
+Every skill in `engineering/`, `gierd/`, `productivity/`, or `misc/` must have a reference in that bucket's `README.md`. The three hub skills (`rails-expert`, `oop`, `rails-antipatterns`) are self-indexing — their `SKILL.md` contains the routing table; no bucket `README.md` is needed for them. Skills in `deprecated/` must not appear in any README.
 
 The plugin uses Claude Code's auto-discovery from `skills/`, so `.claude-plugin/plugin.json` does not enumerate skills.
 
