@@ -37,6 +37,14 @@ Skip any PR that is already closed or has a failing required check the original 
 
 Branch name: `deps/<group>-<YYYYMMDD>`
 
+**Prefer worktrunk if available** (`command -v wt`) so the consolidation happens in an isolated worktree and the user's main checkout stays on whatever branch they were on:
+
+```bash
+wt switch --create deps/<group>-<date>
+```
+
+Otherwise fall back to:
+
 ```bash
 git checkout -B deps/<group>-<date> origin/<default-branch>
 ```
