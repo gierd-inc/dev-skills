@@ -5,19 +5,11 @@ description: Combine all open PRs labeled "dependencies" into a single consolida
 
 # Consolidate dependencies
 
-Batch open dependency PRs (Dependabot, Renovate, etc.) into one PR per ecosystem so CI runs once and review happens once.
-
-## When to use
-
-- Multiple open PRs labeled `dependencies` are queued.
-- User wants to drain the dependency queue without reviewing each PR individually.
-- Trigger phrases: "consolidate dependencies", "batch the dep PRs", "combine dependency updates", `/consolidate-dependencies`.
-
 ## Inputs
 
-- Default scope: all open PRs labeled `dependencies` on the current repo.
-- Grouping label: any additional label on those PRs (`ruby`, `javascript`, `python`, `docker`, …). PRs that share a non-`dependencies` label go into the same consolidated PR. PRs with no extra label go into a generic group (`dependencies-misc`).
-- Base branch: repo default (usually `main`). Don't merge into `main` directly — always work on a fresh branch.
+- Scope: all open PRs labeled `dependencies` on the current repo.
+- Grouping: first non-`dependencies` label on each PR. PRs with no extra label → group `dependencies-misc`.
+- Base: repo default branch. Never merge into it directly.
 
 ## Procedure
 
@@ -25,23 +17,25 @@ Batch open dependency PRs (Dependabot, Renovate, etc.) into one PR per ecosystem
 
 ```bash
 gh auth status
-git status --short          # working tree must be clean
+git status --short
 git fetch origin
 ```
 
-If `bin/ci` is missing, stop and ask the user what the local CI command is.
+If `bin/ci` is missing, stop and ask the user for the local CI command.
 
-### 2. List and group the PRs
+### 2. List and group PRs
 
 ```bash
 gh pr list --label dependencies --state open --json number,title,headRefName,labels,url --limit 100
 ```
 
-Group by the first non-`dependencies` label. Show the user the proposed groups and PR counts before proceeding. If the user hasn't said "just do it" / "AFK mode", confirm.
+Show the user proposed groups and PR counts. Confirm before proceeding unless the user said "just do it" / "AFK mode".
 
-### 3. For each group, build a consolidated branch
+Skip any PR that is already closed or has a failing required check the original author hasn't resolved — note it in the consolidated PR description.
 
-Use a deterministic branch name: `deps/<group>-<YYYYMMDD>` (e.g. `deps/ruby-20260519`).
+### 3. Build a consolidated branch per group
+
+Branch name: `deps/<group>-<YYYYMMDD>`
 
 ```bash
 git checkout -B deps/<group>-<date> origin/<default-branch>
@@ -50,42 +44,39 @@ git checkout -B deps/<group>-<date> origin/<default-branch>
 For each PR in the group:
 
 ```bash
-gh pr checkout <number>           # only to populate the local ref
+gh pr checkout <number>
 git checkout deps/<group>-<date>
 git merge --no-ff origin/<head-ref> -m "Merge #<number>: <title>"
 ```
 
-**On merge conflict** — usually a lockfile (`Gemfile.lock`, `yarn.lock`, `package-lock.json`, `pnpm-lock.yaml`, `poetry.lock`, `Cargo.lock`):
-
-- Take both upstream changes for the manifest (`Gemfile`, `package.json`).
+**Lockfile conflicts** (`Gemfile.lock`, `yarn.lock`, `package-lock.json`, `pnpm-lock.yaml`, `poetry.lock`, `Cargo.lock`):
+- Take both upstream manifest changes (`Gemfile`, `package.json`).
 - Regenerate the lockfile (`bundle install`, `npm install`, `yarn install`, `pnpm install`, etc.).
-- `git add` the regenerated lockfile and the manifest, then `git commit` to finish the merge.
+- `git add` the regenerated lockfile and manifest, then `git commit`.
 
-For non-lockfile conflicts, stop and surface the conflict to the user — don't guess.
+**Non-lockfile conflicts**: stop and surface to the user.
 
-### 4. Push and open the consolidated PR
+### 4. Push and open a draft PR
 
 ```bash
 git push -u origin deps/<group>-<date>
+gh pr create --draft
 ```
 
-Create as **draft** with `gh pr create --draft`. Title format: `Bump <group> dependencies (<N> PRs)`.
+Title: `Bump <group> dependencies (<N> PRs)`
 
-Description template:
-
+Description:
 ```markdown
 Consolidates the following dependency PRs into a single update for review and CI:
 
 - #<n1> — <title>
 - #<n2> — <title>
-- …
+…
 
 Closes #<n1>
 Closes #<n2>
 …
 ```
-
-The `Closes` lines auto-close the originals when this PR merges. Keep them — they're how the queue actually drains.
 
 ### 5. Run CI locally
 
@@ -93,19 +84,17 @@ The `Closes` lines auto-close the originals when this PR merges. Keep them — t
 bin/ci
 ```
 
-Stream output. Do **not** mark the PR ready until `bin/ci` exits 0.
+Do not mark ready until `bin/ci` exits 0.
 
-### 6a. On green — mark ready for review
+### 6a. Green → mark ready
 
 ```bash
 gh pr ready <new-pr-number>
 ```
 
-Then request reviewers from `git blame` of the changed manifests (skip if the repo uses CODEOWNERS — that handles it).
+Request reviewers from `git blame` of changed manifests (skip if repo uses CODEOWNERS).
 
-### 6b. On red — comment, then diagnose
-
-Post a review comment on the new PR with the failing output (trimmed to the relevant section):
+### 6b. Red → comment, then diagnose
 
 ```bash
 gh pr comment <new-pr-number> --body "$(cat <<'EOF'
@@ -118,23 +107,21 @@ EOF
 )"
 ```
 
-Then invoke the `diagnose` skill on the failure. The most common causes are:
-
+Common causes:
 - **Peer-dep mismatch** between two updated packages — pin one back or bump the other.
-- **Stale lockfile** after the merge — regenerate fully (`rm -f <lock> && <pkg-manager> install`).
-- **Single PR is the culprit** — bisect by reverting individual merge commits until CI passes. `git revert -m 1 <merge-sha>`. Drop the offender from this batch; open a follow-up issue or leave that PR for individual handling.
-- **Repo-level flake** unrelated to deps — re-run `bin/ci` once; if still red, treat as a real failure.
+- **Stale lockfile** — regenerate fully (`rm -f <lock> && <pkg-manager> install`).
+- **Single culprit PR** — bisect with `git revert -m 1 <merge-sha>` until CI passes; drop the offender, leave it for individual handling.
+- **Repo flake** — re-run once; if still red, treat as real failure.
 
 After fixing, push, re-run `bin/ci`, then mark ready.
 
 ## Stop conditions
 
 - Non-lockfile merge conflict → surface to user.
-- `bin/ci` red after one bisect/fix attempt → stop and report; don't keep churning.
-- Any PR in the group is already closed or has a failing required check the original author hasn't resolved → skip it and note in the consolidated PR description.
+- `bin/ci` red after one bisect/fix attempt → stop and report.
 
-## Notes
+## Constraints
 
-- One consolidated PR per group, not per language. `ruby` and `javascript` are separate PRs because their CI risk surface is separate.
-- Always draft first. Marking ready is the signal that local CI passed — don't invert that.
-- Don't squash-merge the originals into the consolidated branch; use `merge --no-ff` so each upstream PR stays attributable in history.
+- One consolidated PR per group (`ruby` and `javascript` are separate).
+- Always draft first; `gh pr ready` is the signal that local CI passed.
+- Use `merge --no-ff`, not squash — each upstream PR must stay attributable in history.
